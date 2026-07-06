@@ -1,21 +1,15 @@
-import type { Route, RouteStop, StopKind } from '../core/route';
+import type { Route, RouteStop } from '../core/route';
 import { profile, whatIDo } from '../content/profile';
 import { clientsSection, clients } from '../content/clients';
 import { stackSection, stack } from '../content/stack';
 import { servicesSection, services } from '../content/services';
 import { projectsSection, projects, cta } from '../content/projects';
-import { clamp, smoothstep } from '../core/utils';
-import { isMobile, reducedMotion } from '../core/quality';
+import { clamp } from '../core/utils';
 
 interface OverlayItem {
   el: HTMLElement;
   t: number;
-  /** sequential mode: image first, then the text replaces it (mobile) */
-  swap: boolean;
 }
-
-/** Stations that have a 3D image/card the camera flies past on mobile. */
-const SWAP_KINDS = new Set<StopKind>(['clients', 'whatido', 'stack', 'service', 'project']);
 
 export interface Overlays {
   root: HTMLElement;
@@ -145,8 +139,6 @@ export function buildOverlays(route: Route): Overlays {
   const root = document.getElementById('ui')!;
   const items: OverlayItem[] = [];
 
-  const swapMode = isMobile && !reducedMotion;
-
   for (const stop of route.stops) {
     const { html, pos } = overlayHTML(stop);
     const el = document.createElement('section');
@@ -154,7 +146,7 @@ export function buildOverlays(route: Route): Overlays {
     el.dataset.id = stop.id;
     el.innerHTML = `<div class="panel">${html}</div>`;
     root.appendChild(el);
-    items.push({ el, t: stop.t, swap: swapMode && SWAP_KINDS.has(stop.kind) });
+    items.push({ el, t: stop.t });
   }
 
   // Wider window with a flat top: the block stays fully readable around its
@@ -162,37 +154,15 @@ export function buildOverlays(route: Route): Overlays {
   const windowSize = route.segment * 0.62;
   const FLAT = 0.45;
 
-  const hide = (item: OverlayItem): void => {
-    if (item.el.style.visibility !== 'hidden') {
-      item.el.style.visibility = 'hidden';
-      item.el.classList.remove('active', 'focus');
-    }
-  };
-
   const sync = (progress: number): void => {
     for (const item of items) {
       const d = (progress - item.t) / windowSize;
-
-      if (item.swap) {
-        // Sequential mode (mobile): the 3D image owns the screen while the
-        // camera approaches and passes it (d < ~0.28); only then the text
-        // block fades in, holds, and fades away before the next station.
-        if (d <= 0.26 || d >= 1.5) {
-          hide(item);
-          continue;
-        }
-        item.el.style.visibility = 'visible';
-        const o = smoothstep(0.3, 0.55, d) * (1 - smoothstep(1.15, 1.45, d));
-        item.el.style.opacity = o.toFixed(3);
-        item.el.style.transform = `translateY(${(-(d - 0.85) * 3).toFixed(2)}vh)`;
-        item.el.classList.toggle('active', d > 0.32 && d < 1.45);
-        item.el.classList.toggle('focus', d > 0.4 && d < 1.35);
-        continue;
-      }
-
       const abs = Math.abs(d);
       if (abs >= 1.02) {
-        hide(item);
+        if (item.el.style.visibility !== 'hidden') {
+          item.el.style.visibility = 'hidden';
+          item.el.classList.remove('active', 'focus');
+        }
         continue;
       }
       item.el.style.visibility = 'visible';
