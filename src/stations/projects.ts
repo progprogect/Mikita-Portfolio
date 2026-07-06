@@ -9,7 +9,7 @@ import { makePanel, faceApproach, ACCENT, ACCENT_WARM } from './common';
 /** Station 6 — a 3D card per project along the path + particle swirls at CTA stops. */
 export function buildProjects(world: World, route: Route): void {
   const { scene } = world;
-  const cardWidth = quality.panelSide < 3 ? 2.7 : 4.4;
+  const cardWidth = quality.panelSide < 3 ? 3.1 : 4.4;
 
   route.stops
     .filter((s) => s.kind === 'project')

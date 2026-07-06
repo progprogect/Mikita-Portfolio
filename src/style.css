@@ -182,26 +182,30 @@ body {
   pointer-events: auto;
 }
 
-/* Staggered reveal: title first, then text, lists and chips. */
-.overlay .panel > * {
+/* Staggered reveal: title first, then the body content. */
+.overlay .panel > *:not(.panel-body),
+.overlay .panel-body > * {
   opacity: 0;
   transform: translateY(12px);
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-.overlay.active .panel > * {
+.overlay.active .panel > *:not(.panel-body),
+.overlay.active .panel-body > * {
   opacity: 1;
   transform: none;
 }
 
 .overlay.active .panel > *:nth-child(2) { transition-delay: 0.07s; }
 .overlay.active .panel > *:nth-child(3) { transition-delay: 0.14s; }
-.overlay.active .panel > *:nth-child(4) { transition-delay: 0.21s; }
-.overlay.active .panel > *:nth-child(5) { transition-delay: 0.28s; }
-.overlay.active .panel > *:nth-child(6) { transition-delay: 0.35s; }
+.overlay.active .panel-body > *:nth-child(1) { transition-delay: 0.18s; }
+.overlay.active .panel-body > *:nth-child(2) { transition-delay: 0.26s; }
+.overlay.active .panel-body > *:nth-child(3) { transition-delay: 0.34s; }
+.overlay.active .panel-body > *:nth-child(4) { transition-delay: 0.42s; }
 
 /* The hero panel is animated by GSAP on load — keep CSS out of its way. */
-.overlay[data-id='about'] .panel > * {
+.overlay[data-id='about'] .panel > *:not(.panel-body),
+.overlay[data-id='about'] .panel-body > * {
   opacity: 1;
   transform: none;
   transition: none;
@@ -556,7 +560,7 @@ h2 {
     max-width: none;
     width: calc(100% - 24px);
     padding: 18px 16px;
-    max-height: 72vh;
+    max-height: 48vh;
     overflow: hidden;
   }
 
@@ -667,6 +671,20 @@ h2 {
   .intro {
     display: none;
   }
+
+  /* Two-stage reveal: while approaching a stop only the image and the
+     title are on screen; the text body expands once the stop is centered. */
+  .panel-body {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.5s ease, opacity 0.45s ease;
+  }
+
+  .overlay.focus .panel-body {
+    max-height: 36vh;
+    opacity: 1;
+  }
 }
 
 /* ---------- reduced motion ---------- */
@@ -680,10 +698,13 @@ h2 {
     will-change: auto;
   }
 
-  .overlay .panel > * {
+  .overlay .panel > *,
+  .overlay .panel-body,
+  .overlay .panel-body > * {
     opacity: 1;
     transform: none;
     transition: none;
+    max-height: none;
   }
 }
 
@@ -722,8 +743,11 @@ body.no-webgl .overlay .panel a {
   pointer-events: auto;
 }
 
-body.no-webgl .overlay .panel > * {
+body.no-webgl .overlay .panel > *,
+body.no-webgl .overlay .panel-body,
+body.no-webgl .overlay .panel-body > * {
   opacity: 1;
   transform: none;
   transition: none;
+  max-height: none;
 }

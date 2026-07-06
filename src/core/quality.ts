@@ -12,7 +12,9 @@ export const quality = {
   contactParticles: isMobile ? 1800 : 3600,
   portalParticles: isMobile ? 1200 : 2600,
   /** lateral offset of 3D panels from the camera path */
-  panelSide: isMobile ? 1.9 : 4.6,
+  panelSide: isMobile ? 0.9 : 4.6,
+  /** vertical lift so panels sit above the bottom text card on mobile */
+  panelLift: isMobile ? 1.6 : 0,
   /** how far ahead of the stop the panels sit */
   panelAhead: isMobile ? 13 : 10,
   ringRadius: isMobile ? 7 : 10.5,

@@ -34,11 +34,13 @@ function overlayHTML(stop: RouteStop): { html: string; pos: 'left' | 'right' | '
           <p class="eyebrow">Systems Architect &middot; Senior Engineer</p>
           <h1>${profile.name}</h1>
           <p class="role">${profile.role}</p>
-          ${chips(profile.tags)}
-          <div class="stats">
-            ${profile.stats.map((s) => `<div class="stat"><b>${s.value}</b><span>${s.label}</span></div>`).join('')}
-          </div>
-          <p class="intro">${profile.intro}</p>`,
+          <div class="panel-body">
+            ${chips(profile.tags)}
+            <div class="stats">
+              ${profile.stats.map((s) => `<div class="stat"><b>${s.value}</b><span>${s.label}</span></div>`).join('')}
+            </div>
+            <p class="intro">${profile.intro}</p>
+          </div>`,
       };
     case 'clients':
       return {
@@ -46,9 +48,11 @@ function overlayHTML(stop: RouteStop): { html: string; pos: 'left' | 'right' | '
         html: `
           <p class="eyebrow">Clients</p>
           <h2>${clientsSection.title}</h2>
-          <p class="lead">${clientsSection.lead}</p>
-          <p class="note">${clientsSection.note}</p>
-          ${chips(clients.map((c) => c.name), 'dim')}`,
+          <div class="panel-body">
+            <p class="lead">${clientsSection.lead}</p>
+            <p class="note">${clientsSection.note}</p>
+            ${chips(clients.map((c) => c.name), 'dim')}
+          </div>`,
       };
     case 'whatido':
       return {
@@ -56,10 +60,12 @@ function overlayHTML(stop: RouteStop): { html: string; pos: 'left' | 'right' | '
         html: `
           <p class="eyebrow">What I do</p>
           <h2>${whatIDo.title}</h2>
-          <p class="lead">${whatIDo.lead}</p>
-          <ul class="items">
-            ${whatIDo.items.map((i) => `<li><b>${i.title}</b><span>${i.text}</span></li>`).join('')}
-          </ul>`,
+          <div class="panel-body">
+            <p class="lead">${whatIDo.lead}</p>
+            <ul class="items">
+              ${whatIDo.items.map((i) => `<li><b>${i.title}</b><span>${i.text}</span></li>`).join('')}
+            </ul>
+          </div>`,
       };
     case 'stack':
       return {
@@ -67,11 +73,13 @@ function overlayHTML(stop: RouteStop): { html: string; pos: 'left' | 'right' | '
         html: `
           <p class="eyebrow">Stack</p>
           <h2>${stackSection.title}</h2>
-          <p class="lead">${stackSection.lead}</p>
-          <div class="stack-groups">
-            ${stack
-              .map((g) => `<div class="stack-group"><h3>${g.title}</h3>${chips(g.items)}</div>`)
-              .join('')}
+          <div class="panel-body">
+            <p class="lead">${stackSection.lead}</p>
+            <div class="stack-groups">
+              ${stack
+                .map((g) => `<div class="stack-group"><h3>${g.title}</h3>${chips(g.items)}</div>`)
+                .join('')}
+            </div>
           </div>`,
       };
     case 'service': {
@@ -82,7 +90,9 @@ function overlayHTML(stop: RouteStop): { html: string; pos: 'left' | 'right' | '
         html: `
           <p class="eyebrow">${servicesSection.title} &middot; ${num}/${String(services.length).padStart(2, '0')}</p>
           <h2>${service.title}</h2>
-          <p class="lead">${service.text}</p>`,
+          <div class="panel-body">
+            <p class="lead">${service.text}</p>
+          </div>`,
       };
     }
     case 'project': {
@@ -93,9 +103,11 @@ function overlayHTML(stop: RouteStop): { html: string; pos: 'left' | 'right' | '
         html: `
           <p class="eyebrow">${projectsSection.title} &middot; ${num}/${String(projects.length).padStart(2, '0')}</p>
           <h2>${project.title}</h2>
-          <p class="lead">${project.summary}</p>
-          <ul class="highlights">${project.highlights.map((h) => `<li>${h}</li>`).join('')}</ul>
-          ${chips(project.tech, 'dim')}`,
+          <div class="panel-body">
+            <p class="lead">${project.summary}</p>
+            <ul class="highlights">${project.highlights.map((h) => `<li>${h}</li>`).join('')}</ul>
+            ${chips(project.tech, 'dim')}
+          </div>`,
       };
     }
     case 'cta':
@@ -103,8 +115,10 @@ function overlayHTML(stop: RouteStop): { html: string; pos: 'left' | 'right' | '
         pos: 'center',
         html: `
           <h2 class="cta-title">${cta.question}</h2>
-          <p class="lead">${cta.text}</p>
-          ${ctaButtons()}`,
+          <div class="panel-body">
+            <p class="lead">${cta.text}</p>
+            ${ctaButtons()}
+          </div>`,
       };
     case 'contacts':
       return {
@@ -112,9 +126,11 @@ function overlayHTML(stop: RouteStop): { html: string; pos: 'left' | 'right' | '
         html: `
           <p class="eyebrow">Contacts</p>
           <h2 class="cta-title">Let&rsquo;s build something great</h2>
-          <p class="lead">From an idea on a napkin to a robot on your production line.</p>
-          ${ctaButtons()}
-          <p class="note">${profile.email}</p>`,
+          <div class="panel-body">
+            <p class="lead">From an idea on a napkin to a robot on your production line.</p>
+            ${ctaButtons()}
+            <p class="note">${profile.email}</p>
+          </div>`,
       };
   }
 }
@@ -145,7 +161,7 @@ export function buildOverlays(route: Route): Overlays {
       if (abs >= 1.02) {
         if (item.el.style.visibility !== 'hidden') {
           item.el.style.visibility = 'hidden';
-          item.el.classList.remove('active');
+          item.el.classList.remove('active', 'focus');
         }
         continue;
       }
@@ -155,6 +171,9 @@ export function buildOverlays(route: Route): Overlays {
       item.el.style.opacity = eased.toFixed(3);
       item.el.style.transform = `translateY(${(-d * 3).toFixed(2)}vh)`;
       item.el.classList.toggle('active', abs < 0.72);
+      // On mobile the panel body stays collapsed while approaching; it
+      // expands only when the stop is centered (see CSS for .focus).
+      item.el.classList.toggle('focus', abs < 0.5);
     }
     root.classList.toggle('scrolled', progress > 0.012);
   };

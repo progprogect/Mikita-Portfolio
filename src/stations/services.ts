@@ -13,7 +13,7 @@ import { makePanel, faceApproach, ACCENT, ACCENT_WARM } from './common';
  */
 export function buildServices(world: World, route: Route, assets: Assets): void {
   const { scene } = world;
-  const panelWidth = quality.panelSide < 3 ? 2.6 : 4.2;
+  const panelWidth = quality.panelSide < 3 ? 3.0 : 4.2;
 
   route.stops
     .filter((s) => s.kind === 'service')

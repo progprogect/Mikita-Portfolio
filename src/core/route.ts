@@ -104,7 +104,8 @@ export function buildRoute(): Route {
     const contentPosition = position
       .clone()
       .addScaledVector(tangent, quality.panelAhead)
-      .addScaledVector(side, lateral);
+      .addScaledVector(side, lateral)
+      .addScaledVector(UP, centered ? 0 : quality.panelLift);
     return {
       ...seed,
       index: i,
