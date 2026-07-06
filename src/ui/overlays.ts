@@ -35,7 +35,6 @@ function overlayHTML(stop: RouteStop): { html: string; pos: 'left' | 'right' | '
           <h1>${profile.name}</h1>
           <p class="role">${profile.role}</p>
           ${chips(profile.tags)}
-          <p class="locations">Currently between <span class="loc-rotator"><span>${profile.locations[0]}</span></span></p>
           <div class="stats">
             ${profile.stats.map((s) => `<div class="stat"><b>${s.value}</b><span>${s.label}</span></div>`).join('')}
           </div>
@@ -115,7 +114,7 @@ function overlayHTML(stop: RouteStop): { html: string; pos: 'left' | 'right' | '
           <h2 class="cta-title">Let&rsquo;s build something great</h2>
           <p class="lead">From an idea on a napkin to a robot on your production line.</p>
           ${ctaButtons()}
-          <p class="note">${profile.email} &middot; ${profile.locations.join(' &middot; ')}</p>`,
+          <p class="note">${profile.email}</p>`,
       };
   }
 }
@@ -134,28 +133,16 @@ export function buildOverlays(route: Route): Overlays {
     items.push({ el, t: stop.t });
   }
 
-  // rotating location label
-  const rotator = root.querySelector<HTMLElement>('.loc-rotator');
-  if (rotator) {
-    let idx = 0;
-    setInterval(() => {
-      idx = (idx + 1) % profile.locations.length;
-      const span = rotator.firstElementChild as HTMLElement;
-      span.classList.add('out');
-      setTimeout(() => {
-        span.textContent = profile.locations[idx];
-        span.classList.remove('out');
-      }, 280);
-    }, 2600);
-  }
-
-  const windowSize = route.segment * 0.48;
+  // Wider window with a flat top: the block stays fully readable around its
+  // stop and crossfades with neighbours without an empty gap in between.
+  const windowSize = route.segment * 0.62;
+  const FLAT = 0.45;
 
   const sync = (progress: number): void => {
     for (const item of items) {
       const d = (progress - item.t) / windowSize;
       const abs = Math.abs(d);
-      if (abs >= 1.15) {
+      if (abs >= 1.02) {
         if (item.el.style.visibility !== 'hidden') {
           item.el.style.visibility = 'hidden';
           item.el.classList.remove('active');
@@ -163,11 +150,11 @@ export function buildOverlays(route: Route): Overlays {
         continue;
       }
       item.el.style.visibility = 'visible';
-      const opacity = clamp(1 - abs, 0, 1);
-      const eased = opacity * opacity * (3 - 2 * opacity);
+      const fade = clamp((1 - abs) / (1 - FLAT), 0, 1);
+      const eased = fade * fade * (3 - 2 * fade);
       item.el.style.opacity = eased.toFixed(3);
-      item.el.style.transform = `translateY(${(-d * 5).toFixed(2)}vh)`;
-      item.el.classList.toggle('active', abs < 0.6);
+      item.el.style.transform = `translateY(${(-d * 3).toFixed(2)}vh)`;
+      item.el.classList.toggle('active', abs < 0.72);
     }
     root.classList.toggle('scrolled', progress > 0.012);
   };

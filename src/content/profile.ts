@@ -2,7 +2,6 @@ export const profile = {
   name: 'Mikita Valkunovich',
   role: 'Robotization, IT and AI | Technical Director',
   tags: ['AI/ML', 'Computer Vision', 'IoT', 'LLMs'],
-  locations: ['Dubai', 'Georgia', 'Poland'],
   stats: [
     { value: '11+', label: 'years in IT' },
     { value: '20,200+', label: 'hours of engineering' },

@@ -60,7 +60,7 @@ export function makeCardTexture(
   img: HTMLImageElement,
   opts: { width?: number; height?: number; pad?: number; bg?: string; radius?: number } = {},
 ): THREE.CanvasTexture {
-  const { width = 800, height = 500, pad = 44, bg = '#f5f7fb', radius = 30 } = opts;
+  const { width = 800, height = 500, pad = 44, bg = '#f5f7fb', radius = 6 } = opts;
   const [canvas, ctx] = makeCanvas(width, height);
   roundRect(ctx, 0, 0, width, height, radius);
   ctx.fillStyle = bg;
@@ -147,7 +147,7 @@ export function makeProjectCardTexture(num: string, title: string): THREE.Canvas
   const w = 820;
   const h = 512;
   const [canvas, ctx] = makeCanvas(w, h);
-  roundRect(ctx, 0, 0, w, h, 30);
+  roundRect(ctx, 0, 0, w, h, 6);
   const grad = ctx.createLinearGradient(0, 0, w, h);
   grad.addColorStop(0, '#0b1322');
   grad.addColorStop(1, '#101c31');
@@ -155,11 +155,11 @@ export function makeProjectCardTexture(num: string, title: string): THREE.Canvas
   ctx.fill();
   ctx.strokeStyle = 'rgba(110,231,255,0.4)';
   ctx.lineWidth = 3;
-  roundRect(ctx, 1.5, 1.5, w - 3, h - 3, 29);
+  roundRect(ctx, 1.5, 1.5, w - 3, h - 3, 5);
   ctx.stroke();
 
   ctx.fillStyle = 'rgba(110,231,255,0.14)';
-  ctx.font = '800 300px "Unbounded", sans-serif';
+  ctx.font = '700 300px "Space Grotesk", sans-serif';
   ctx.textAlign = 'right';
   ctx.textBaseline = 'alphabetic';
   ctx.fillText(num, w - 36, h - 40);
@@ -168,7 +168,7 @@ export function makeProjectCardTexture(num: string, title: string): THREE.Canvas
   ctx.fillRect(48, 66, 64, 6);
 
   ctx.fillStyle = '#eef4ff';
-  ctx.font = '700 58px "Unbounded", sans-serif';
+  ctx.font = '700 58px "Space Grotesk", sans-serif';
   ctx.textAlign = 'left';
   ctx.textBaseline = 'top';
   const lines = wrapLines(ctx, title, w - 120);

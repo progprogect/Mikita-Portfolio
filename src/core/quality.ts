@@ -15,5 +15,5 @@ export const quality = {
   panelSide: isMobile ? 1.9 : 4.6,
   /** how far ahead of the stop the panels sit */
   panelAhead: isMobile ? 13 : 10,
-  ringRadius: isMobile ? 6.5 : 10,
+  ringRadius: isMobile ? 7 : 10.5,
 } as const;

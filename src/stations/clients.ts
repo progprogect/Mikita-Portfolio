@@ -18,7 +18,7 @@ export function buildClients(world: World, route: Route, assets: Assets): void {
   scene.add(ring);
 
   const radius = quality.ringRadius;
-  const cardWidth = quality.panelSide < 3 ? 2.0 : 2.9;
+  const cardWidth = quality.panelSide < 3 ? 2.8 : 3.9;
   const cards: THREE.Group[] = [];
 
   clients.forEach((client, i) => {
