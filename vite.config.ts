@@ -1,7 +1,8 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: '/Mikita-Portfolio/',
+  // Relative base works both on GitHub Pages (/Mikita-Portfolio/) and Railway (/)
+  base: './',
   build: {
     target: 'es2022',
     assetsInlineLimit: 0,
