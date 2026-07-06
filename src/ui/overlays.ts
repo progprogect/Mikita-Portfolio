@@ -39,8 +39,7 @@ function overlayHTML(stop: RouteStop): { html: string; pos: 'left' | 'right' | '
           <div class="stats">
             ${profile.stats.map((s) => `<div class="stat"><b>${s.value}</b><span>${s.label}</span></div>`).join('')}
           </div>
-          <p class="intro">${profile.intro}</p>
-          <p class="hint">Scroll to start the journey <span class="chevron">&darr;</span></p>`,
+          <p class="intro">${profile.intro}</p>`,
       };
     case 'clients':
       return {
