@@ -101,7 +101,9 @@ async function start(): Promise<void> {
 
   loader.classList.add('done');
 
-  // Hero entrance
+  // Hero entrance. clearProps is essential: without it GSAP pins the
+  // captured mid-transition opacity of .panel-body as an inline style,
+  // leaving the About body invisible on mobile.
   if (!reducedMotion) {
     const hero = overlays.root.querySelector('.overlay .panel');
     if (hero) {
@@ -112,6 +114,7 @@ async function start(): Promise<void> {
         stagger: 0.08,
         ease: 'power3.out',
         delay: 0.25,
+        clearProps: 'opacity,transform',
       });
     }
   }

@@ -13,9 +13,10 @@ export const quality = {
   portalParticles: isMobile ? 1200 : 2600,
   /** lateral offset of 3D panels from the camera path */
   panelSide: isMobile ? 0.9 : 4.6,
-  /** vertical lift so panels sit above the bottom text card on mobile */
-  panelLift: isMobile ? 1.6 : 0,
-  /** how far ahead of the stop the panels sit */
-  panelAhead: isMobile ? 13 : 10,
+  /** small vertical lift so panels sit slightly above screen center on mobile */
+  panelLift: isMobile ? 0.4 : 0,
+  /** how far ahead of the stop the panels sit; short on mobile so the camera
+      flies past the image right after the stop and the text takes over */
+  panelAhead: isMobile ? 5 : 10,
   ringRadius: isMobile ? 7 : 10.5,
 } as const;

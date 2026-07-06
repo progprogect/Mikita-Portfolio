@@ -72,9 +72,9 @@ export class World {
     const pos = this.route.curve.getPointAt(t);
     const look = this.route.curve.getPointAt(Math.min(t + this.lookAhead, 1));
 
-    // On mobile the camera leans toward each station's content while passing
-    // it: a gentle dolly-in plus a look-at blend, so images and titles get
-    // framed on the narrow screen before the journey continues.
+    // On mobile the camera turns toward each station's content while it is
+    // still ahead, framing the image full-screen; right after the fly-past
+    // the blend releases and the text overlay takes over the screen.
     if (isMobile && !reducedMotion) {
       let nearest = this.route.stops[0];
       let nearestD = Infinity;
@@ -85,11 +85,11 @@ export class World {
           nearest = s;
         }
       }
-      const w = smoothstep(this.route.segment * 0.55, 0, nearestD);
+      const signed = (t - nearest.t) / this.route.segment;
+      // ramp in while approaching, release just before passing the content
+      const w = smoothstep(-0.6, -0.28, signed) * (1 - smoothstep(0.02, 0.13, signed));
       if (w > 0.001) {
-        look.lerp(nearest.contentPosition, w * 0.75);
-        const toContent = nearest.contentPosition.clone().sub(pos).normalize();
-        pos.addScaledVector(toContent, w * 1.8);
+        look.lerp(nearest.contentPosition, w * 0.7);
       }
     }
 
