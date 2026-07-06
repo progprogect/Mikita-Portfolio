@@ -57,7 +57,7 @@ export function buildAbout(world: World, route: Route, assets: Assets): void {
     .clone()
     .addScaledVector(stop.tangent, quality.panelAhead + 2)
     .addScaledVector(stop.side, quality.panelSide * 1.1)
-    .add(new THREE.Vector3(0, 0.4, 0));
+    .add(new THREE.Vector3(0, 0.4 + quality.panelLift, 0));
   panel.group.position.copy(photoPos);
   faceApproach(panel.group, stop.tangent);
   scene.add(panel.group);

@@ -561,6 +561,7 @@ h2 {
     width: calc(100% - 24px);
     padding: 18px 16px;
     max-height: 54vh;
+    max-height: 54dvh;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -652,10 +653,6 @@ h2 {
     line-height: 1.4;
   }
 
-  .highlights li:nth-child(n + 4) {
-    display: none;
-  }
-
   .chips span {
     font-size: 11px;
     padding: 4px 9px;
@@ -680,7 +677,9 @@ h2 {
   }
 
   .intro {
-    display: none;
+    font-size: 13px;
+    line-height: 1.45;
+    margin-top: 12px;
   }
 
   /* Two-stage reveal: while approaching a stop only the image and the
@@ -696,6 +695,7 @@ h2 {
      being clipped; once it bottoms out the gesture chains to page scroll. */
   .overlay.focus .panel-body {
     max-height: 40vh;
+    max-height: 40dvh;
     opacity: 1;
     overflow-y: auto;
     pointer-events: auto;

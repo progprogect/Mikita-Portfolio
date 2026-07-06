@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import type { Route } from './route';
-import { clamp } from './utils';
-import { quality, reducedMotion } from './quality';
+import { clamp, smoothstep } from './utils';
+import { quality, reducedMotion, isMobile } from './quality';
 
 export interface Updatable {
   update(dt: number, elapsed: number, progress: number): void;
@@ -71,6 +71,28 @@ export class World {
 
     const pos = this.route.curve.getPointAt(t);
     const look = this.route.curve.getPointAt(Math.min(t + this.lookAhead, 1));
+
+    // On mobile the camera leans toward each station's content while passing
+    // it: a gentle dolly-in plus a look-at blend, so images and titles get
+    // framed on the narrow screen before the journey continues.
+    if (isMobile && !reducedMotion) {
+      let nearest = this.route.stops[0];
+      let nearestD = Infinity;
+      for (const s of this.route.stops) {
+        const d = Math.abs(t - s.t);
+        if (d < nearestD) {
+          nearestD = d;
+          nearest = s;
+        }
+      }
+      const w = smoothstep(this.route.segment * 0.55, 0, nearestD);
+      if (w > 0.001) {
+        look.lerp(nearest.contentPosition, w * 0.75);
+        const toContent = nearest.contentPosition.clone().sub(pos).normalize();
+        pos.addScaledVector(toContent, w * 1.8);
+      }
+    }
+
     this.camera.position.copy(pos);
     this.camera.lookAt(look);
 
