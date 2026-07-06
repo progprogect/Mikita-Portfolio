@@ -40,6 +40,7 @@ async function start(): Promise<void> {
   if (!webglAvailable()) {
     // Static, fully readable fallback: all overlays stacked in order.
     document.body.classList.add('no-webgl');
+    document.getElementById('loader')?.classList.add('done');
     return;
   }
 
