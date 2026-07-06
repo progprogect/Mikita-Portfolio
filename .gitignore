@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Local source documents (kept out of the public repo)
+*.docx
+
+# Root-level media duplicates (canonical copies in public/assets/)
+/*.jpeg
+/*.jpg
+/*.png
+/*.webp
+/logo/
+
+# OS junk
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
