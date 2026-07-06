@@ -16,27 +16,27 @@ export const profile = {
 
 export const whatIDo = {
   title: 'What I do',
-  lead: 'End-to-end delivery: from requirements and architecture to operations and trained client teams.',
+  lead: 'I build IT products powered by AI — from the first architecture call to a running production system.',
   items: [
     {
-      title: 'Turnkey production robotics',
-      text: 'Robotic systems for real factories — electronics, firmware, enclosures, on-site installation.',
+      title: 'AI-powered products',
+      text: 'LLM agents, RAG systems, Computer Vision pipelines — designed, trained and shipped to production.',
     },
     {
-      title: 'AI/ML & Computer Vision',
-      text: 'Agents, RAG, CV pipelines — designed, trained and shipped to production.',
+      title: 'Product architecture',
+      text: 'System design that scales: APIs, data flows, infrastructure and integration with existing stacks.',
     },
     {
-      title: 'End-to-end delivery',
-      text: 'From first requirements call to operations, monitoring and hand-over.',
-    },
-    {
-      title: 'Team & vendor management',
-      text: 'Building and leading cross-functional engineering teams, managing vendors.',
+      title: 'Full-cycle delivery',
+      text: 'From requirements to release: I lead the team, manage vendors and hand over a running product.',
     },
     {
       title: 'Infrastructure & IoT',
       text: 'Cloud, edge and hardware working together as one reliable system.',
+    },
+    {
+      title: 'Production robotics',
+      text: 'For clients who need physical automation — robotic systems from electronics to on-site install.',
     },
   ],
 } as const;

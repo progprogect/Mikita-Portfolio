@@ -560,8 +560,19 @@ h2 {
     max-width: none;
     width: calc(100% - 24px);
     padding: 18px 16px;
-    max-height: 48vh;
+    max-height: 54vh;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Header never shrinks; the body takes the remaining space and scrolls. */
+  .overlay .panel > *:not(.panel-body) {
+    flex-shrink: 0;
+  }
+
+  .overlay .panel > .panel-body {
+    min-height: 0;
   }
 
   #scroll-hint {
@@ -681,9 +692,14 @@ h2 {
     transition: max-height 0.5s ease, opacity 0.45s ease;
   }
 
+  /* Long content (stack, big cases) scrolls inside the body instead of
+     being clipped; once it bottoms out the gesture chains to page scroll. */
   .overlay.focus .panel-body {
-    max-height: 36vh;
+    max-height: 40vh;
     opacity: 1;
+    overflow-y: auto;
+    pointer-events: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
