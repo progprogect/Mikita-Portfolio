@@ -336,6 +336,23 @@ h2 {
   color: var(--dim);
 }
 
+.shots {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 12px 0 4px;
+}
+
+.shots img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  background: rgba(110, 231, 255, 0.05);
+}
+
 .highlights {
   list-style: none;
   display: grid;

@@ -4,6 +4,8 @@ export interface Project {
   summary: string;
   highlights: string[];
   tech: string[];
+  /** Optional on-site photos: shown as 3D panels and inside the text overlay. */
+  images?: string[];
 }
 
 export const projectsSection = {
@@ -28,6 +30,46 @@ export const projects: Project[] = [
       'MLOps and DevOps pipelines on AWS with GPU cost management',
     ],
     tech: ['Python', 'PyTorch', 'TensorFlow', 'OpenCV', 'YOLO', 'TensorRT', 'CUDA', 'AWS', 'Docker', 'MLflow'],
+  },
+  {
+    id: 'bottle-inspection',
+    title: 'Bottle & Label Inspection — UAE Bottling Line',
+    summary:
+      'A vision system inspecting every bottle on a live bottling line in the UAE — labels and bottle defects — with rejects blown off the belt by compressed-air ejectors driven from a board designed in-house.',
+    highlights: [
+      'Running on a production line in the UAE: inspection, decision and ejection happen inline at line speed',
+      'Custom-designed control board between the vision pipeline and the pneumatic ejector valves — schematic, firmware and trigger logic in-house',
+      'Per-bottle tracking with ejection timing locked to conveyor speed, so the jet hits the right bottle and not its neighbour',
+      'Missing, skewed and damaged labels plus bottle and cap defects — under factory lighting and on reflective PET',
+    ],
+    tech: ['Python', 'PyTorch', 'OpenCV', 'TensorRT', 'C++', 'Embedded C', 'PCB Design', 'Edge GPU', 'Pneumatics'],
+    images: ['assets/bottle-line.jpg', 'assets/bottle-eject.jpg'],
+  },
+  {
+    id: 'packaging-marks',
+    title: 'Packaging Mark & Code Verification — Snack Line',
+    summary:
+      'An inline vision check on a snack packaging line confirming every pack leaves with the markings it is supposed to carry — date and batch codes, certification and regulatory marks — and flagging the ones that do not.',
+    highlights: [
+      'Per-pack check that codes and marks match what the current production run is supposed to print',
+      'Catches what slips past a human at line speed: a missing mark, a code from the previous run, print smeared past reading',
+      'Works on printed film and folded bags — glare, creases and packs that never sit the same way twice',
+      'Same inspection stack as the bottling line: edge inference with the decision taken per unit, in line',
+    ],
+    tech: ['Python', 'PyTorch', 'OpenCV', 'OCR', 'TensorRT', 'C++', 'Edge GPU'],
+  },
+  {
+    id: 'blister-inspection',
+    title: 'Blister Pack Inspection — Tablet Defects',
+    summary:
+      'A vision system reading every pocket of a blister pack — tablet present, whole and clean — so a pack with a chipped, missing or contaminated tablet never reaches the carton.',
+    highlights: [
+      'Every pocket checked for a missing tablet, a chipped or cracked edge, and dark specks that should not be there',
+      'The whole blister is judged in one frame instead of pocket by pocket, so the check keeps pace with the line',
+      'Contrast-tuned imaging so a broken edge separates from the shadow of the pocket around it',
+      'Defects come back marked on the frame, which makes a call reviewable instead of something to take on trust',
+    ],
+    tech: ['Python', 'PyTorch', 'OpenCV', 'TensorRT', 'C++', 'Edge GPU'],
   },
   {
     id: 'amc-placement',
@@ -56,7 +98,7 @@ export const projects: Project[] = [
   },
   {
     id: 'photoseparator',
-    title: 'PhotoSeparator IoT — Industrial Defect Detection',
+    title: 'PhotoSeparator IoT — Material Flow Sorting',
     summary:
       'A real-time computer vision system detecting impurities and sorting material flows on an industrial production line using pneumatic air jets.',
     highlights: [

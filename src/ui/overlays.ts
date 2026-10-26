@@ -16,6 +16,13 @@ export interface Overlays {
   sync(progress: number): void;
 }
 
+const shots = (srcs: readonly string[] | undefined, alt: string): string =>
+  srcs?.length
+    ? `<div class="shots">${srcs
+        .map((src) => `<img src="${src}" alt="${alt}" loading="lazy" decoding="async" />`)
+        .join('')}</div>`
+    : '';
+
 const chips = (items: readonly string[], cls = ''): string =>
   `<div class="chips ${cls}">${items.map((i) => `<span>${i}</span>`).join('')}</div>`;
 
@@ -105,6 +112,7 @@ function overlayHTML(stop: RouteStop): { html: string; pos: 'left' | 'right' | '
           <h2>${project.title}</h2>
           <div class="panel-body">
             <p class="lead">${project.summary}</p>
+            ${shots(project.images, `${project.title} — on site`)}
             <ul class="highlights">${project.highlights.map((h) => `<li>${h}</li>`).join('')}</ul>
             ${chips(project.tech, 'dim')}
           </div>`,

@@ -1,13 +1,14 @@
 import * as THREE from 'three';
 import type { Route } from '../core/route';
 import type { World } from '../core/world';
+import type { Assets } from '../core/assets';
 import { projects } from '../content/projects';
 import { makeProjectCardTexture, makeDotTexture } from '../core/utils';
 import { quality, reducedMotion } from '../core/quality';
 import { makePanel, faceApproach, ACCENT, ACCENT_WARM } from './common';
 
 /** Station 6 — a 3D card per project along the path + particle swirls at CTA stops. */
-export function buildProjects(world: World, route: Route): void {
+export function buildProjects(world: World, route: Route, assets: Assets): void {
   const { scene } = world;
   const cardWidth = quality.panelSide < 3 ? 3.1 : 4.4;
 
@@ -17,8 +18,9 @@ export function buildProjects(world: World, route: Route): void {
       const project = projects[stop.dataIndex];
       const num = String(stop.dataIndex + 1).padStart(2, '0');
       const texture = makeProjectCardTexture(num, project.title);
+      const glow = stop.dataIndex % 2 === 0 ? ACCENT : ACCENT_WARM;
       const panel = makePanel(texture, cardWidth, 820 / 512, {
-        glow: stop.dataIndex % 2 === 0 ? ACCENT : ACCENT_WARM,
+        glow,
         floatAmp: 0.12,
         floatSpeed: 0.55 + (stop.dataIndex % 4) * 0.08,
         phase: stop.dataIndex * 1.7,
@@ -29,6 +31,27 @@ export function buildProjects(world: World, route: Route): void {
       panel.group.rotateZ((stop.dataIndex % 3 - 1) * 0.04);
       scene.add(panel.group);
       world.updatables.push(panel.updatable);
+
+      // On-site photos flank the card: one above and ahead, one below and further.
+      const photos = assets.projectImages.get(project.id) ?? [];
+      photos.forEach((texture, pi) => {
+        const shot = makePanel(texture, cardWidth * 0.74, 800 / 500, {
+          glow,
+          floatAmp: 0.1 + pi * 0.04,
+          floatSpeed: 0.5 + pi * 0.11,
+          phase: stop.dataIndex * 1.7 + pi * 2.3,
+        });
+        shot.group.position
+          .copy(stop.contentPosition)
+          .addScaledVector(stop.side, (pi === 0 ? -1 : 1) * stop.sideSign * cardWidth * 1.02)
+          .addScaledVector(stop.tangent, 2.2 + pi * 2.6)
+          .add(new THREE.Vector3(0, pi === 0 ? 1.2 : -1.5, 0));
+        faceApproach(shot.group, stop.tangent);
+        shot.group.rotateY(stop.sideSign * -0.3);
+        shot.group.rotateZ((pi === 0 ? 1 : -1) * 0.035);
+        scene.add(shot.group);
+        world.updatables.push(shot.updatable);
+      });
     });
 
   // CTA stops — a swirling particle vortex around the path

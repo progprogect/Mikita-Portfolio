@@ -59,7 +59,7 @@ async function start(): Promise<void> {
   buildWhatIDo(world, route);
   buildStack(world, route);
   buildServices(world, route, assets);
-  buildProjects(world, route);
+  buildProjects(world, route, assets);
   buildContacts(world, route);
 
   // Scroll height: one journey segment per stop.
