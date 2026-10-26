@@ -343,14 +343,27 @@ h2 {
   margin: 12px 0 4px;
 }
 
+/* A single frame (e.g. a machine-vision capture) keeps its own shape,
+   centered, instead of being cropped into the two-photo grid. */
+.shots:has(img:only-child) {
+  grid-template-columns: minmax(0, 220px);
+  justify-content: center;
+}
+
+/* Alone in the grid it is free to keep its own height — no letterboxing. */
+.shots img:only-child {
+  max-height: none;
+}
+
 .shots img {
   width: 100%;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
+  height: auto;
+  max-height: 180px;
+  object-fit: contain;
   display: block;
   border-radius: 5px;
   border: 1px solid var(--border);
-  background: rgba(110, 231, 255, 0.05);
+  background: #0b1322;
 }
 
 .highlights {

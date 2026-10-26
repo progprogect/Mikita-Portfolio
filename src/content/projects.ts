@@ -57,6 +57,7 @@ export const projects: Project[] = [
       'Same inspection stack as the bottling line: edge inference with the decision taken per unit, in line',
     ],
     tech: ['Python', 'PyTorch', 'OpenCV', 'OCR', 'TensorRT', 'C++', 'Edge GPU'],
+    images: ['assets/chips-line.jpg'],
   },
   {
     id: 'blister-inspection',
@@ -70,6 +71,7 @@ export const projects: Project[] = [
       'Defects come back marked on the frame, which makes a call reviewable instead of something to take on trust',
     ],
     tech: ['Python', 'PyTorch', 'OpenCV', 'TensorRT', 'C++', 'Edge GPU'],
+    images: ['assets/blister-detect.jpg'],
   },
   {
     id: 'amc-placement',
